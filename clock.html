@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Clocker & Time Log</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBase: '#121212',
+                        darkPanel: '#1a1a1a',
+                        darkBorder: '#333333',
+                        accentGreen: '#4ade80',
+                        accentRed: '#f87171',
+                        accentYellow: '#facc15',
+                        textMain: '#e5e5e5',
+                        textMuted: '#888888'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            border-radius: 0 !important;
+        }
+        body {
+            background-color: #121212;
+            color: #e5e5e5;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body class="bg-darkBase min-h-screen p-4 md:p-8 flex flex-col items-center">
+
+    <div class="w-full max-w-2xl bg-darkPanel border border-darkBorder p-6 shadow-2xl">
+        <div class="flex justify-between items-center border-b border-darkBorder pb-4 mb-6">
+            <h1 class="text-lg font-bold tracking-wider text-white">JOB CLOCKER // RATE: $20/HR</h1>
+            <div id="clock-display" class="text-xl font-bold text-accentGreen">00:00:00</div>
+        </div>
+
+        <!-- Task Details & Active Editing -->
+        <div class="space-y-4 mb-6">
+            <div>
+                <label class="block text-xs uppercase text-textMuted mb-1">Active Task Description</label>
+                <div class="flex gap-2">
+                    <input type="text" id="task-input" placeholder="e.g., Fixing metadata & styling header..." class="flex-1 bg-darkBase border border-darkBorder p-3 text-textMain focus:outline-none focus:border-accentGreen text-sm">
+                    <button id="update-task-btn" onclick="updateActiveTask()" class="hidden bg-darkBase border border-accentYellow text-accentYellow px-4 text-xs uppercase hover:bg-accentYellow hover:text-darkBase transition-colors font-bold">
+                        Update Task
+                    </button>
+                </div>
+            </div>
+
+            <!-- Explicit Punch In / Punch Out Controls -->
+            <div class="grid grid-cols-2 gap-4">
+                <button id="punch-in-btn" onclick="punchIn()" class="bg-accentGreen text-darkBase font-bold py-3 uppercase tracking-wider text-sm hover:opacity-90 transition-opacity">
+                    Punch In
+                </button>
+                <button id="punch-out-btn" onclick="punchOut()" disabled class="bg-darkBase border border-darkBorder text-textMuted font-bold py-3 uppercase tracking-wider text-sm cursor-not-allowed transition-opacity">
+                    Punch Out
+                </button>
+            </div>
+            
+            <div class="flex justify-end">
+                <button onclick="exportData()" class="bg-darkBase border border-darkBorder px-4 py-2 text-xs uppercase text-textMain hover:bg-darkBorder transition-colors">
+                    Export JSON Log
+                </button>
+            </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="grid grid-cols-2 gap-4 mb-8 border-t border-b border-darkBorder py-4">
+            <div>
+                <span class="block text-xs uppercase text-textMuted">Total Time Logged</span>
+                <span id="total-time" class="text-lg font-bold text-white">0.00 hrs</span>
+            </div>
+            <div>
+                <span class="block text-xs uppercase text-textMuted">Total Earned ($20/hr)</span>
+                <span id="total-earned" class="text-lg font-bold text-accentGreen">$0.00</span>
+            </div>
+        </div>
+
+        <!-- Session History Log -->
+        <div>
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-xs uppercase tracking-wider text-textMuted">Permanent Time Log History</h2>
+                <button onclick="clearHistory()" class="text-[10px] uppercase text-accentRed hover:underline">Clear History</button>
+            </div>
+            <div id="log-container" class="space-y-2 max-h-60 overflow-y-auto border border-darkBorder p-2 bg-darkBase">
+                <div class="text-xs text-textMuted text-center py-4">No time logged yet. Punch in to start tracking.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Permanent storage retrieval on load
+        let activeSession = JSON.parse(localStorage.getItem('job_clocker_active') || 'null');
+        let logs = JSON.parse(localStorage.getItem('job_clocker_logs') || '[]');
+        const hourlyRate = 20.00;
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock-display').innerText = now.toTimeString().split(' ')[0];
+
+            if (activeSession && activeSession.startTime) {
+                const elapsedSeconds = Math.floor((new Date() - new Date(activeSession.startTime)) / 1000);
+                const hrs = Math.floor(elapsedSeconds / 3600);
+                const mins = Math.floor((elapsedSeconds % 3600) / 60);
+                const secs = elapsedSeconds % 60;
+                document.getElementById('punch-out-btn').innerText = `Punch Out (${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0_0')})`.replace('_0','');
+            }
+        }
+        setInterval(updateClock, 1000);
+
+        function initApp() {
+            if (activeSession) {
+                document.getElementById('task-input').value = activeSession.task;
+                setClockedInState(true);
+            }
+            renderLogs();
+        }
+
+        function setClockedInState(isClocked) {
+            const punchInBtn = document.getElementById('punch-in-btn');
+            const punchOutBtn = document.getElementById('punch-out-btn');
+            const updateTaskBtn = document.getElementById('update-task-btn');
+
+            if (isClocked) {
+                punchInBtn.disabled = true;
+                punchInBtn.className = "bg-darkBase border border-darkBorder text-textMuted font-bold py-3 uppercase tracking-wider text-sm cursor-not-allowed";
+                
+                punchOutBtn.disabled = false;
+                punchOutBtn.className = "bg-accentRed text-darkBase font-bold py-3 uppercase tracking-wider text-sm hover:opacity-90 transition-opacity cursor-pointer";
+                
+                updateTaskBtn.classList.remove('hidden');
+            } else {
+                punchInBtn.disabled = false;
+                punchInBtn.className = "bg-accentGreen text-darkBase font-bold py-3 uppercase tracking-wider text-sm hover:opacity-90 transition-opacity cursor-pointer";
+                
+                punchOutBtn.disabled = true;
+                punchOutBtn.className = "bg-darkBase border border-darkBorder text-textMuted font-bold py-3 uppercase tracking-wider text-sm cursor-not-allowed";
+                punchOutBtn.innerText = "Punch Out";
+                
+                updateTaskBtn.classList.add('hidden');
+            }
+        }
+
+        function punchIn() {
+            const taskInput = document.getElementById('task-input');
+            const taskText = taskInput.value.trim();
+            if (!taskText) {
+                alert('Please enter what you are working on before punching in.');
+                return;
+            }
+
+            activeSession = {
+                task: taskText,
+                startTime: new Date().toISOString()
+            };
+            localStorage.setItem('job_clocker_active', JSON.stringify(activeSession));
+            setClockedInState(true);
+        }
+
+        function updateActiveTask() {
+            if (!activeSession) return;
+            const newTaskText = document.getElementById('task-input').value.trim();
+            if (!newTaskText) {
+                alert('Task description cannot be empty.');
+                return;
+            }
+            activeSession.task = newTaskText;
+            localStorage.setItem('job_clocker_active', JSON.stringify(activeSession));
+            alert('Active task updated successfully!');
+        }
+
+        function punchOut() {
+            if (!activeSession) return;
+
+            const endTime = new Date();
+            const startTime = new Date(activeSession.startTime);
+            const durationHours = (endTime - startTime) / (1000 * 60 * 60);
+            const earnings = durationHours * hourlyRate;
+
+            const session = {
+                id: Date.now(),
+                task: activeSession.task,
+                start: startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                end: endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                date: startTime.toLocaleDateString(),
+                hours: durationHours.toFixed(3),
+                earned: earnings.toFixed(2)
+            };
+
+            logs.unshift(session);
+            localStorage.setItem('job_clocker_logs', JSON.stringify(logs));
+
+            // Clear active session
+            localStorage.removeItem('job_clocker_active');
+            activeSession = null;
+
+            document.getElementById('task-input').value = '';
+            setClockedInState(false);
+            renderLogs();
+        }
+
+        function renderLogs() {
+            const container = document.getElementById('log-container');
+            if (logs.length === 0) {
+                container.innerHTML = '<div class="text-xs text-textMuted text-center py-4">No time logged yet. Punch in to start tracking.</div>';
+                document.getElementById('total-time').innerText = '0.00 hrs';
+                document.getElementById('total-earned').innerText = '$0.00';
+                return;
+            }
+
+            let totalHrs = 0;
+            let totalEarn = 0;
+            let html = '';
+
+            logs.forEach(log => {
+                totalHrs += parseFloat(log.hours);
+                totalEarn += parseFloat(log.earned);
+                html += `
+                    <div class="bg-darkPanel border border-darkBorder p-2 flex justify-between items-center text-xs">
+                        <div>
+                            <span class="text-white font-bold">${log.task}</span>
+                            <div class="text-textMuted text-[10px]">${log.date} | ${log.start} - ${log.end}</div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-accentGreen font-bold">$${log.earned}</span>
+                            <div class="text-textMuted text-[10px]">${log.hours} hrs</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            document.getElementById('total-time').innerText = totalHrs.toFixed(2) + ' hrs';
+            document.getElementById('total-earned').innerText = '$' + totalEarn.toFixed(2);
+        }
+
+        function clearHistory() {
+            if (confirm('Clear all permanent time log history?')) {
+                logs = [];
+                localStorage.removeItem('job_clocker_logs');
+                renderLogs();
+            }
+        }
+
+        function exportData() {
+            if (logs.length === 0 && !activeSession) {
+                alert('Nothing to export yet!');
+                return;
+            }
+            const exportObj = {
+                activeSession: activeSession,
+                completedLogs: logs
+            };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "time_log_" + new Date().toISOString().slice(0,10) + ".json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        // Run initialization on load
+        initApp();
+    </script>
+</body>
+</html>

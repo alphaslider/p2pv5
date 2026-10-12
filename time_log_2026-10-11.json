@@ -1,0 +1,41 @@
+{
+  "activeSession": null,
+  "completedLogs": [
+    {
+      "id": 1791757467127,
+      "task": "building hero section for desktop",
+      "start": "04:08 PM",
+      "end": "04:24 PM",
+      "date": "10/11/2026",
+      "hours": "0.265",
+      "earned": "5.30"
+    },
+    {
+      "id": 1791755809259,
+      "task": "gathering photos, implement gallery",
+      "start": "03:51 PM",
+      "end": "03:56 PM",
+      "date": "10/11/2026",
+      "hours": "0.096",
+      "earned": "1.93"
+    },
+    {
+      "id": 1791755234881,
+      "task": "styling hamburger menu. fix section snapping",
+      "start": "03:40 PM",
+      "end": "03:47 PM",
+      "date": "10/11/2026",
+      "hours": "0.119",
+      "earned": "2.39"
+    },
+    {
+      "id": 1791754784804,
+      "task": "researching peer2peer indigenous society fb. gathering metrics",
+      "start": "03:34 PM",
+      "end": "03:39 PM",
+      "date": "10/11/2026",
+      "hours": "0.085",
+      "earned": "1.70"
+    }
+  ]
+}

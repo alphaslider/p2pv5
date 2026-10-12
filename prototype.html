@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Search Engine Optimization (SEO) Meta Tags -->
+    <title>Peer2Peer Indigenous Society | Métis & Indigenous Peer Support & Recovery Victoria</title>
+    <meta name="description" content="Peer2Peer Indigenous Society at 932 Balmoral Rd, Victoria, BC. Led by Métis and Indigenous peers providing mobile outreach, detox & recovery referrals, overdose aftercare, and wound care." />
+    <meta name="keywords" content="Peer2Peer Indigenous Society, Peer2Peer Indigenous Coalition, Victoria BC, 932 Balmoral Rd, Métis peer support, Indigenous recovery, overdose aftercare, mobile outreach services, wound care, harm reduction" />
+    <meta name="author" content="Peer2Peer Indigenous Society" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook (www enforced) - Image meta removed -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.peer2peerindigenous.ca" />
+    <meta property="og:title" content="Peer2Peer Indigenous Society | Métis & Indigenous Peer Support" />
+    <meta property="og:description" content="Mobile outreach, detox & recovery referrals, and overdose aftercare in Victoria, BC. Led by Métis and Indigenous peers with lived experience." />
+    <meta property="og:locale" content="en_CA" />
+
+    <!-- Twitter Card (www enforced) - Image meta removed -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://www.peer2peerindigenous.ca" />
+    <meta name="twitter:title" content="Peer2Peer Indigenous Society | Métis & Indigenous Peer Support" />
+    <meta name="twitter:description" content="Mobile outreach, detox & recovery referrals, and overdose aftercare in Victoria, BC. All My Relations." />
+
+    <!-- Canonical Tag (www enforced) -->
+    <link rel="canonical" href="https://www.peer2peerindigenous.ca" />
+
+    <!-- Nice Handwriting Font (Caveat) & Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBase: '#12100e',
+                        darkCard: '#1c1917',
+                        darkBorder: '#292524',
+                        accentGold: '#d4a373',
+                        creamText: '#fefae0',
+                        mutedText: '#a89f91'
+                    },
+                    fontFamily: {
+                        handwriting: ['Caveat', 'cursive'],
+                        grotesk: ['Space Grotesk', 'sans-serif'],
+                        mono: ['monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* --- RESET & BASE --- */
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #12100e;
+            color: #fefae0;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-hand {
+            font-family: 'Caveat', cursive;
+            letter-spacing: 0.03em;
+        }
+
+        /* --- BLINDS & SNAPPING LAYOUT --- */
+        #hero {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            z-index: 1;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        .blind-section {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* --- CSS SHIMMER ANIMATION FOR LOGO --- */
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        .shimmer-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(212, 163, 115, 0.4) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: translateX(-100%);
+            animation: shimmer 2.5s infinite;
+            pointer-events: none;
+        }
+
+        /* --- LOADING OVERLAY --- */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background-color: #12100e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        #loading-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* --- MOBILE MENU ANIMATIONS --- */
+        .hamburger-lines {
+            width: 24px;
+            height: 18px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .hamburger-lines span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: #fefae0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: center;
+        }
+        .hamburger-active .line-1 {
+            transform: translateY(8px) rotate(45deg);
+            background-color: #d4a373;
+        }
+        .hamburger-active .line-2 {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .hamburger-active .line-3 {
+            transform: translateY(-8px) rotate(-45deg);
+            background-color: #d4a373;
+        }
+
+        #fancy-menu-overlay {
+            clip-path: circle(0% at calc(100% - 40px) 40px);
+            transition: clip-path 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        #fancy-menu-overlay.open {
+            clip-path: circle(150% at calc(100% - 40px) 40px);
+        }
+
+        .menu-link {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s ease;
+            font-family: 'Caveat', cursive;
+        }
+        #fancy-menu-overlay.open .menu-link {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- GALLERY & FLYER GRID --- */
+        .gallery-item {
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Vertical Flyer & Poster Specific */
+        .flyer-item {
+            aspect-ratio: 9/16;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .flyer-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .flyer-item:hover img {
+            transform: scale(1.03);
+        }
+
+        /* --- FIXED LIGHTBOX STYLING --- */
+        #lightbox-overlay {
+            backdrop-filter: blur(8px);
+            background-color: rgba(18, 16, 14, 0.95);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #lightbox-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        #lightbox-container {
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #lightbox-img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border: 2px solid #d4a373;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Industrial scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c1917;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #292524;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #d4a373;
+        }
+    </style>
+</head>
+<body class="bg-darkBase text-creamText antialiased">
+
+    <!-- ROBUST ASSET LOADING WIDGET -->
+    <div id="loading-screen">
+        <div class="max-w-xs w-full text-center space-y-4 px-4">
+            <div class="shimmer-container w-16 h-16 mx-auto rounded-xl border-2 border-accentGold overflow-hidden bg-darkCard shadow-xl">
+                <img src="logo.jpg" alt="Logo" class="w-full h-full object-cover">
+            </div>
+            <p class="font-hand text-2xl text-accentGold tracking-wider">Peer2Peer Indigenous Society</p>
+            <div class="w-full bg-darkCard border border-darkBorder h-2 rounded-full overflow-hidden p-0.5">
+                <div id="loading-bar" class="bg-accentGold h-full rounded-full w-0 transition-all duration-200"></div>
+            </div>
+            <p id="loading-status" class="text-[11px] font-mono text-mutedText uppercase tracking-widest">Loading Assets (0%)</p>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-darkBase border-b border-darkBorder py-3 px-6 flex justify-between items-center">
+        <a href="#hero" class="flex items-center space-x-3 group focus:outline-none">
+            <div class="shimmer-container w-9 h-9 rounded-lg border border-accentGold overflow-hidden bg-darkCard">
+                <img src="logo.jpg" alt="Peer2Peer Logo" class="w-full h-full object-cover group-hover:opacity-90 transition-opacity">
+            </div>
+            <span class="font-hand font-bold text-xl md:text-2xl tracking-wider text-creamText group-hover:text-accentGold transition-colors">Peer2Peer Indigenous Society</span>
+        </a>
+        
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex space-x-8 text-xs font-medium uppercase tracking-wider text-mutedText">
+            <a href="#hero" class="hover:text-accentGold transition-colors">Home</a>
+            <a href="#about" class="hover:text-accentGold transition-colors">About</a>
+            <a href="#services" class="hover:text-accentGold transition-colors">Services</a>
+            <a href="#infographics" class="hover:text-accentGold transition-colors">Posters</a>
+            <a href="#gallery" class="hover:text-accentGold transition-colors">Gallery</a>
+            <a href="#contact" class="hover:text-accentGold transition-colors">Contact</a>
+        </nav>
+
+        <!-- Mobile Toggle -->
+        <button id="hamburger-toggle" onclick="toggleMenu()" class="md:hidden p-2 focus:outline-none z-50 relative group" aria-label="Toggle Menu">
+            <div class="hamburger-lines" id="hamburger-icon">
+                <span class="line-1"></span>
+                <span class="line-2"></span>
+                <span class="line-3"></span>
+            </div>
+        </button>
+    </header>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div id="fancy-menu-overlay" class="fixed inset-0 z-40 bg-darkCard flex flex-col justify-between p-8 md:hidden">
+        <div class="pt-20 space-y-6">
+            <span class="text-xs uppercase tracking-[0.3em] text-accentGold block menu-link font-mono" style="transition-delay: 100ms;">// Navigation Menu</span>
+            <div class="flex flex-col space-y-3">
+                <a href="#hero" onclick="toggleMenu()" class="menu-link text-4xl font-bold tracking-wide text-creamText hover:text-accentGold block" style="transition-delay: 200ms;">Home</a>
+                <a href="#about" onclick="toggleMenu()" class="menu-link text-4xl font-bold tracking-wide text-creamText hover:text-accentGold block" style="transition-delay: 250ms;">About</a>
+                <a href="#services" onclick="toggleMenu()" class="menu-link text-4xl font-bold tracking-wide text-creamText hover:text-accentGold block" style="transition-delay: 300ms;">Services</a>
+                <a href="#infographics" onclick="toggleMenu()" class="menu-link text-4xl font-bold tracking-wide text-creamText hover:text-accentGold block" style="transition-delay: 325ms;">Posters</a>
+                <a href="#gallery" onclick="toggleMenu()" class="menu-link text-4xl font-bold tracking-wide text-creamText hover:text-accentGold block" style="transition-delay: 350ms;">Gallery</a>
+                <a href="#contact" onclick="toggleMenu()" class="menu-link text-4xl font-bold tracking-wide text-creamText hover:text-accentGold block" style="transition-delay: 400ms;">Contact</a>
+            </div>
+        </div>
+
+        <div class="space-y-4 border-t border-darkBorder pt-6 menu-link font-mono text-xs" style="transition-delay: 500ms;">
+            <div class="text-mutedText space-y-1">
+                <p class="text-accentGold font-bold">Peer2Peer Indigenous Society</p>
+                <p>932 Balmoral Rd, Victoria, BC</p>
+            </div>
+            <p class="text-xs text-accentGold font-bold tracking-widest uppercase">All My Relations 🪶</p>
+        </div>
+    </div>
+
+    <!-- HERO SECTION (WIDE SCREEN BACKGROUND) -->
+    <section id="hero" class="flex flex-col items-center justify-center pt-24 pb-16 px-6 text-center overflow-hidden">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <img src="hero.png" onerror="this.src='https://placehold.co/2560x1440/12100e/292524?text=Peer2Peer+Indigenous+Society';" alt="Peer2Peer Indigenous Society Hero Background" class="w-full h-full object-cover object-center scale-105 opacity-85">
+            <div class="absolute inset-0 bg-darkBase/25"></div>
+        </div>
+        <div class="relative z-10 max-w-4xl space-y-6">
+            <span class="text-xs uppercase tracking-[0.3em] text-accentGold font-mono font-bold block drop-shadow-md">Métis & Indigenous Peer-Led • Victoria, BC</span>
+            <h1 class="text-4xl md:text-7xl font-hand font-bold leading-none text-creamText drop-shadow-lg">
+                Walking Together in Mental Health, Recovery, & Aftercare
+            </h1>
+            <p class="text-creamText text-sm md:text-base max-w-2xl mx-auto leading-relaxed drop-shadow-md font-medium">
+                Led by Métis and Indigenous peers with lived experience. Providing mobile outreach, detox & recovery navigation, and a dedicated overdose aftercare support team.
+            </p>
+            <div class="pt-4 flex justify-center gap-4">
+                <a href="#services" class="bg-accentGold text-darkBase px-6 py-3 text-xs uppercase font-bold tracking-widest hover:opacity-90 transition-opacity shadow-lg font-mono rounded-lg">
+                    View Services
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION (WITH FOUNDER.JPG & PARTNER.JPG) -->
+    <section id="about" class="blind-section flex flex-col items-center justify-center py-20 px-6 border-t border-darkBorder bg-darkCard">
+        <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <!-- Founders / Leadership Photos Column -->
+            <div class="flex justify-center md:justify-start gap-4">
+                <div class="w-36 h-36 rounded-2xl border-2 border-accentGold bg-darkCard p-1.5 shadow-2xl relative cursor-pointer overflow-hidden" onclick="openLightbox('founder.jpg')">
+                    <img src="founder.jpg" alt="Founder" class="w-full h-full object-cover rounded-xl">
+                    <div class="absolute bottom-2 left-2 bg-darkBase/90 px-2 py-0.5 text-[9px] font-mono text-accentGold uppercase tracking-wider border border-darkBorder rounded-md">
+                        Founder
+                    </div>
+                </div>
+                <div class="w-36 h-36 rounded-2xl border-2 border-accentGold bg-darkCard p-1.5 shadow-2xl relative cursor-pointer overflow-hidden" onclick="openLightbox('partner.jpg')">
+                    <img src="partner.jpg" alt="Partner" class="w-full h-full object-cover rounded-xl">
+                    <div class="absolute bottom-2 left-2 bg-darkBase/90 px-2 py-0.5 text-[9px] font-mono text-accentGold uppercase tracking-wider border border-darkBorder rounded-md">
+                        Partner
+                    </div>
+                </div>
+            </div>
+            <div class="md:col-span-2 space-y-4">
+                <span class="text-xs uppercase tracking-[0.25em] text-accentGold font-mono block">Who We Are</span>
+                <h2 class="text-3xl md:text-5xl font-hand font-bold text-creamText">Lived Experience & Cultural Safety</h2>
+                <p class="text-mutedText text-sm md:text-base leading-relaxed">
+                    Peer2Peer Indigenous Society is rooted in community and guided by Métis and Indigenous peers who have walked the path. We bridge critical gaps in health and social systems by meeting our relatives right where they are—bringing dignity, cultural safety, and zero-judgment support directly to the streets of Victoria.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION (SWIPING BLIND) -->
+    <section id="services" class="blind-section flex flex-col items-center justify-center py-20 px-6 border-t border-darkBorder bg-darkBase">
+        <div class="max-w-5xl w-full space-y-12">
+            <div class="text-center md:text-left">
+                <span class="text-xs uppercase tracking-[0.25em] text-accentGold font-mono block">Specialties & Support</span>
+                <h2 class="text-3xl md:text-5xl font-hand font-bold text-creamText">Our Mobile Outreach & Programs</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+                <!-- Specialties List -->
+                <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                        <h3 class="font-hand font-bold text-xl text-accentGold">Detox & Recovery Referrals</h3>
+                        <p class="text-[11px] text-mutedText leading-relaxed">Guiding and connecting relatives to treatment and detox pathways.</p>
+                    </div>
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                        <h3 class="font-hand font-bold text-xl text-accentGold">Overdose Aftercare</h3>
+                        <p class="text-[11px] text-mutedText leading-relaxed">Dedicated peer support team following critical overdose incidents.</p>
+                    </div>
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                        <h3 class="font-hand font-bold text-xl text-accentGold">Mobile Outreach Services</h3>
+                        <p class="text-[11px] text-mutedText leading-relaxed">Boots-on-the-ground support traveling directly across Victoria.</p>
+                    </div>
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                        <h3 class="font-hand font-bold text-xl text-accentGold">Indigenous Harm Reduction</h3>
+                        <p class="text-[11px] text-mutedText leading-relaxed">Culturally safe, peer-led care grounded in traditional values.</p>
+                    </div>
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                        <h3 class="font-hand font-bold text-xl text-accentGold">Wound Care & HIV Support</h3>
+                        <p class="text-[11px] text-mutedText leading-relaxed">Essential health support, testing, and direct medical care access.</p>
+                    </div>
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                        <h3 class="font-hand font-bold text-xl text-accentGold">Relocation Outreach</h3>
+                        <p class="text-[11px] text-mutedText leading-relaxed">Assistance with housing transitions and community navigation.</p>
+                    </div>
+                </div>
+
+                <!-- Clean Vertical Flyer Asset (Clickable to Lightbox) -->
+                <div class="flex justify-center">
+                    <div class="w-48 sm:w-56 flyer-item rounded-2xl border-2 border-darkBorder hover:border-accentGold transition-colors shadow-2xl bg-darkCard overflow-hidden" onclick="openLightbox('ad.jpg')">
+                        <img src="ad.jpg" alt="Community Flyer" loading="lazy" class="rounded-xl w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INFOGRAPHIC POSTERS SECTION (SWIPING BLIND) -->
+    <section id="infographics" class="blind-section flex flex-col items-center justify-center py-20 px-6 border-t border-darkBorder bg-darkCard">
+        <div class="max-w-5xl w-full space-y-10">
+            <div class="text-center">
+                <span class="text-xs uppercase tracking-[0.25em] text-accentGold font-mono block">Educational Resources</span>
+                <h2 class="text-3xl md:text-5xl font-hand font-bold text-creamText mt-2">Community Infographic Posters</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- Poster 1 -->
+                <div class="flyer-item rounded-2xl border-2 border-darkBorder hover:border-accentGold transition-colors shadow-2xl bg-darkBase mx-auto w-full max-w-xs overflow-hidden" onclick="openLightbox('g1.jpg')">
+                    <img src="g1.jpg" alt="Infographic Poster 1" loading="lazy" class="rounded-xl w-full h-full object-cover">
+                </div>
+                <!-- Poster 2 -->
+                <div class="flyer-item rounded-2xl border-2 border-darkBorder hover:border-accentGold transition-colors shadow-2xl bg-darkBase mx-auto w-full max-w-xs overflow-hidden" onclick="openLightbox('g2.jpg')">
+                    <img src="g2.jpg" alt="Infographic Poster 2" loading="lazy" class="rounded-xl w-full h-full object-cover">
+                </div>
+                <!-- Poster 3 -->
+                <div class="flyer-item rounded-2xl border-2 border-darkBorder hover:border-accentGold transition-colors shadow-2xl bg-darkBase mx-auto w-full max-w-xs overflow-hidden" onclick="openLightbox('g3.jpg')">
+                    <img src="g3.jpg" alt="Infographic Poster 3" loading="lazy" class="rounded-xl w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION (SWIPING BLIND) -->
+    <section id="gallery" class="blind-section flex flex-col items-center justify-center py-20 px-6 border-t border-darkBorder bg-darkBase">
+        <div class="max-w-5xl w-full space-y-10">
+            <div class="text-center">
+                <span class="text-xs uppercase tracking-[0.25em] text-accentGold font-mono block">Community Moments</span>
+                <h2 class="text-3xl md:text-5xl font-hand font-bold text-creamText mt-2">In the Field</h2>
+            </div>
+            
+            <div class="grid grid-cols-3 md:grid-cols-3 gap-3 md:gap-4 border border-darkBorder p-3 bg-darkCard rounded-2xl">
+                <div class="gallery-item rounded-xl border border-darkBorder hover:border-accentGold transition-colors overflow-hidden" onclick="openLightbox('a.jpeg')">
+                    <img src="a.jpeg" alt="Community outreach moment 1" loading="lazy" class="rounded-lg w-full h-full object-cover">
+                </div>
+                <div class="gallery-item rounded-xl border border-darkBorder hover:border-accentGold transition-colors overflow-hidden" onclick="openLightbox('b.jpeg')">
+                    <img src="b.jpeg" alt="Community outreach moment 2" loading="lazy" class="rounded-lg w-full h-full object-cover">
+                </div>
+                <div class="gallery-item rounded-xl border border-darkBorder hover:border-accentGold transition-colors overflow-hidden" onclick="openLightbox('c.jpeg')">
+                    <img src="c.jpeg" alt="Community outreach moment 3" loading="lazy" class="rounded-lg w-full h-full object-cover">
+                </div>
+                <div class="gallery-item rounded-xl border border-darkBorder hover:border-accentGold transition-colors overflow-hidden" onclick="openLightbox('d.jpeg')">
+                    <img src="d.jpeg" alt="Community outreach moment 4" loading="lazy" class="rounded-lg w-full h-full object-cover">
+                </div>
+                <div class="gallery-item rounded-xl border border-darkBorder hover:border-accentGold transition-colors overflow-hidden" onclick="openLightbox('e.jpeg')">
+                    <img src="e.jpeg" alt="Community outreach moment 5" loading="lazy" class="rounded-lg w-full h-full object-cover">
+                </div>
+                <div class="gallery-item rounded-xl border border-darkBorder hover:border-accentGold transition-colors overflow-hidden" onclick="openLightbox('f.jpeg')">
+                    <img src="f.jpeg" alt="Community outreach moment 6" loading="lazy" class="rounded-lg w-full h-full object-cover">
+                </div>
+                <div class="gallery-item rounded-xl border border-darkBorder hover:border-accentGold transition-colors overflow-hidden" onclick="openLightbox('g.jpeg')">
+                    <img src="g.jpeg" alt="Community outreach moment 7" loading="lazy" class="rounded-lg w-full h-full object-cover">
+                </div>
+                <div class="gallery-item rounded-xl border border-darkBorder hover:border-accentGold transition-colors overflow-hidden" onclick="openLightbox('h.jpeg')">
+                    <img src="h.jpeg" alt="Community outreach moment 8" loading="lazy" class="rounded-lg w-full h-full object-cover">
+                </div>
+                <div class="gallery-item rounded-xl border border-darkBorder hover:border-accentGold transition-colors overflow-hidden" onclick="openLightbox('i.jpg')">
+                    <img src="i.jpg" alt="Community outreach moment 9" loading="lazy" class="rounded-lg w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT & FOOTER SECTION (SWIPING BLIND) -->
+    <section id="contact" class="blind-section flex flex-col justify-between py-20 px-6 border-t border-darkBorder bg-darkCard">
+        <div class="max-w-4xl w-full mx-auto my-auto space-y-8">
+            <div>
+                <span class="text-xs uppercase tracking-[0.25em] text-accentGold font-mono block">Get In Touch</span>
+                <h2 class="text-3xl md:text-5xl font-hand font-bold text-creamText mt-2">Connect With Our Team</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-mutedText">
+                <div class="space-y-3 bg-darkBase border border-darkBorder p-6 rounded-xl shadow-lg">
+                    <span class="text-accentGold font-hand font-bold text-xl block">Location & Mobile Unit</span>
+                    <p class="text-creamText leading-relaxed">
+                        932 Balmoral Rd / Mobile<br>
+                        Victoria, BC, Canada, V8V 1P3
+                    </p>
+                </div>
+                <div class="space-y-3 bg-darkBase border border-darkBorder p-6 rounded-xl shadow-lg">
+                    <span class="text-accentGold font-hand font-bold text-xl block">Direct Contact</span>
+                    <p class="text-creamText">Phone: <a href="tel:2506675756" class="hover:text-accentGold underline">(250) 667-5756</a></p>
+                    <p class="text-creamText">Email: <a href="mailto:peer2peerindigenouscoalition@gmail.com" class="hover:text-accentGold underline">peer2peerindigenouscoalition@gmail.com</a></p>
+                </div>
+                <div class="space-y-3 bg-darkBase border border-darkBorder p-6 rounded-xl shadow-lg border-accentGold/40">
+                    <span class="text-accentGold font-hand font-bold text-xl block">Support & Donations</span>
+                    <p class="text-creamText">E-Transfer / Donations:</p>
+                    <p class="text-creamText font-mono text-[11px] break-all"><a href="mailto:peer2peerindigenouscoalition@gmail.com" class="hover:text-accentGold underline font-semibold">peer2peerindigenouscoalition@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-4xl w-full mx-auto pt-8 border-t border-darkBorder flex flex-col md:flex-row justify-between items-center text-xs text-mutedText space-y-4 md:space-y-0">
+            <p>&copy; 2026 Peer2Peer Indigenous Society. All rights reserved.</p>
+            <p class="text-accentGold font-hand font-bold text-lg">All My Relations 🪶</p>
+        </div>
+    </section>
+
+    <!-- FIXED LIGHTBOX OVERLAY -->
+    <div id="lightbox-overlay" class="fixed inset-0 z-[100] flex items-center justify-center p-4 rounded-none" onclick="closeLightbox()">
+        <button class="absolute top-6 right-6 text-creamText hover:text-accentGold text-2xl z-[105] focus:outline-none p-2" aria-label="Close lightbox">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+
+        <div id="lightbox-container" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="Enlarged community asset" class="rounded-xl">
+        </div>
+    </div>
+
+    <!-- SCRIPT WIRING -->
+    <script>
+        // Robust Preloader Script with Fallback Safety Net
+        window.addEventListener('DOMContentLoaded', () => {
+            const imageSources = [
+                'logo.jpg', 'hero.png', 'founder.jpg', 'partner.jpg', 'ad.jpg',
+                'g1.jpg', 'g2.jpg', 'g3.jpg',
+                'a.jpeg', 'b.jpeg', 'c.jpeg', 'd.jpeg', 'e.jpeg', 'f.jpeg', 'g.jpeg', 'h.jpeg', 'i.jpg'
+            ];
+
+            const totalImages = imageSources.length;
+            let loadedCount = 0;
+
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingStatus = document.getElementById('loading-status');
+            const loadingScreen = document.getElementById('loading-screen');
+
+            let isDismissed = false;
+
+            function dismissLoader() {
+                if (isDismissed) return;
+                isDismissed = true;
+                loadingBar.style.width = '100%';
+                loadingStatus.textContent = 'Loading Assets (100%)';
+                setTimeout(() => {
+                    loadingScreen.classList.add('fade-out');
+                }, 200);
+            }
+
+            // Safety timeout: Never stay stuck for more than 3.5 seconds regardless of network speed
+            const safetyTimer = setTimeout(dismissLoader, 3500);
+
+            function updateProgress() {
+                loadedCount++;
+                const percentage = Math.round((loadedCount / totalImages) * 100);
+                loadingBar.style.width = percentage + '%';
+                loadingStatus.textContent = `Loading Assets (${percentage}%)`;
+
+                if (loadedCount >= totalImages) {
+                    clearTimeout(safetyTimer);
+                    dismissLoader();
+                }
+            }
+
+            imageSources.forEach(src => {
+                const img = new Image();
+                img.onload = updateProgress;
+                img.onerror = updateProgress; // Proceed even if a specific image errors out
+                img.src = src;
+            });
+        });
+
+        function toggleMenu() {
+            const overlay = document.getElementById('fancy-menu-overlay');
+            const icon = document.getElementById('hamburger-icon');
+            
+            overlay.classList.toggle('open');
+            icon.classList.toggle('hamburger-active');
+
+            if (overlay.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Clean anchor navigation handler preventing scroll-snap trap
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                e.preventDefault();
+                const htmlEl = document.documentElement;
+
+                if (targetId === '#hero') {
+                    htmlEl.style.scrollSnapType = 'none';
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    setTimeout(() => {
+                        htmlEl.style.scrollSnapType = '';
+                    }, 600);
+                } else {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        const lightboxOverlay = document.getElementById('lightbox-overlay');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(assetSrc) {
+            lightboxImg.src = assetSrc;
+            lightboxOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.addEventListener('keydown', handleEsc);
+        }
+
+        function closeLightbox() {
+            lightboxOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                lightboxImg.src = '';
+            }, 300);
+            document.removeEventListener('keydown', handleEsc);
+        }
+
+        function handleEsc(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        }
+    </script>
+</body>
+</html>
