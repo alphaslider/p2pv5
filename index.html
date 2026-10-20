@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
 
     <!-- Search Engine Optimization (SEO) Meta Tags -->
     <title>Peer2Peer Indigenous Society | Métis & Indigenous Peer Support & Recovery Victoria</title>
@@ -14,23 +14,23 @@
     <meta name="author" content="Peer2Peer Indigenous Society" />
     <meta name="robots" content="index, follow" />
 
-    <!-- Open Graph / Facebook (www enforced) - Image meta removed -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.peer2peerindigenous.ca" />
     <meta property="og:title" content="Peer2Peer Indigenous Society | Métis & Indigenous Peer Support" />
     <meta property="og:description" content="Mobile outreach, detox & recovery referrals, and overdose aftercare in Victoria, BC. Led by Métis and Indigenous peers with lived experience." />
     <meta property="og:locale" content="en_CA" />
 
-    <!-- Twitter Card (www enforced) - Image meta removed -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://www.peer2peerindigenous.ca" />
     <meta name="twitter:title" content="Peer2Peer Indigenous Society | Métis & Indigenous Peer Support" />
     <meta name="twitter:description" content="Mobile outreach, detox & recovery referrals, and overdose aftercare in Victoria, BC. All My Relations." />
 
-    <!-- Canonical Tag (www enforced) -->
+    <!-- Canonical Tag -->
     <link rel="canonical" href="https://www.peer2peerindigenous.ca" />
 
-    <!-- Nice Handwriting Font (Caveat) & Space Grotesk -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
@@ -101,12 +101,8 @@
 
         /* --- CSS SHIMMER ANIMATION FOR LOGO --- */
         @keyframes shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
-            }
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         .shimmer-container {
             position: relative;
@@ -115,10 +111,7 @@
         .shimmer-container::after {
             content: '';
             position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
+            top: 0; right: 0; bottom: 0; left: 0;
             background: linear-gradient(
                 90deg,
                 rgba(255, 255, 255, 0) 0%,
@@ -213,20 +206,38 @@
             transform: scale(1.05);
         }
 
-        /* Vertical Flyer & Poster Specific */
-        .flyer-item {
-            aspect-ratio: 9/16;
-            overflow: hidden;
+        /* Responsive Poster Container */
+        .poster-card {
+            position: relative;
             cursor: pointer;
+            overflow: hidden;
+            border-radius: 1rem;
+            border: 2px solid #292524;
+            background-color: #12100e;
+            transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .flyer-item img {
+        .poster-card:hover {
+            border-color: #d4a373;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .poster-card img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+            object-fit: contain;
+            display: block;
         }
-        .flyer-item:hover img {
-            transform: scale(1.03);
+
+        /* --- REVEAL ON SCROLL ANIMATIONS --- */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-element.revealed {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* --- FIXED LIGHTBOX STYLING --- */
@@ -256,24 +267,16 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
 
-        /* Industrial scrollbar */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #1c1917;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #292524;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #d4a373;
-        }
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1c1917; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #292524; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d4a373; }
     </style>
 </head>
 <body class="bg-darkBase text-creamText antialiased">
 
-    <!-- ROBUST ASSET LOADING WIDGET -->
+    <!-- PRELOADER -->
     <div id="loading-screen">
         <div class="max-w-xs w-full text-center space-y-4 px-4">
             <div class="shimmer-container w-16 h-16 mx-auto rounded-xl border-2 border-accentGold overflow-hidden bg-darkCard shadow-xl">
@@ -288,7 +291,7 @@
     </div>
 
     <!-- HEADER -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-darkBase border-b border-darkBorder py-3 px-6 flex justify-between items-center">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-darkBase/95 backdrop-blur-md border-b border-darkBorder py-3 px-6 flex justify-between items-center">
         <a href="#hero" class="flex items-center space-x-3 group focus:outline-none">
             <div class="shimmer-container w-9 h-9 rounded-lg border border-accentGold overflow-hidden bg-darkCard">
                 <img src="logo.jpg" alt="Peer2Peer Logo" class="w-full h-full object-cover group-hover:opacity-90 transition-opacity">
@@ -339,14 +342,14 @@
         </div>
     </div>
 
-    <!-- HERO SECTION (WIDE SCREEN BACKGROUND) -->
+    <!-- HERO SECTION -->
     <section id="hero" class="flex flex-col items-center justify-center pt-24 pb-16 px-6 text-center overflow-hidden">
         <div class="absolute inset-0 z-0 overflow-hidden">
             <img src="hero.png" onerror="this.src='https://placehold.co/2560x1440/12100e/292524?text=Peer2Peer+Indigenous+Society';" alt="Peer2Peer Indigenous Society Hero Background" class="w-full h-full object-cover object-center scale-105 opacity-85">
-            <div class="absolute inset-0 bg-darkBase/25"></div>
+            <div class="absolute inset-0 bg-darkBase/35"></div>
         </div>
-        <div class="relative z-10 max-w-4xl space-y-6">
-            <span class="text-xs uppercase tracking-[0.3em] text-accentGold font-mono font-bold block drop-shadow-md">Métis & Indigenous Peer-Led • Victoria, BC</span>
+        <div class="relative z-10 max-w-4xl space-y-6 reveal-element">
+            <span class="text-xs uppercase tracking-[0.3em] text-accentGold font-mono font-bold block drop-shadow-md">// Métis & Indigenous Peer-Led • Victoria, BC</span>
             <h1 class="text-4xl md:text-7xl font-hand font-bold leading-none text-creamText drop-shadow-lg">
                 Walking Together in Mental Health, Recovery, & Aftercare
             </h1>
@@ -354,26 +357,26 @@
                 Led by Métis and Indigenous peers with lived experience. Providing mobile outreach, detox & recovery navigation, and a dedicated overdose aftercare support team.
             </p>
             <div class="pt-4 flex justify-center gap-4">
-                <a href="#services" class="bg-accentGold text-darkBase px-6 py-3 text-xs uppercase font-bold tracking-widest hover:opacity-90 transition-opacity shadow-lg font-mono rounded-lg">
+                <a href="#services" class="bg-accentGold text-darkBase px-6 py-3 text-xs uppercase font-bold tracking-widest hover:bg-accentGold/90 transition-all shadow-lg font-mono rounded-lg transform hover:-translate-y-0.5">
                     View Services
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT SECTION (WITH FOUNDER.JPG & PARTNER.JPG) -->
+    <!-- ABOUT SECTION -->
     <section id="about" class="blind-section flex flex-col items-center justify-center py-20 px-6 border-t border-darkBorder bg-darkCard">
-        <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+        <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-3 gap-8 items-center reveal-element">
             <!-- Founders / Leadership Photos Column -->
             <div class="flex justify-center md:justify-start gap-4">
-                <div class="w-36 h-36 rounded-2xl border-2 border-accentGold bg-darkCard p-1.5 shadow-2xl relative cursor-pointer overflow-hidden" onclick="openLightbox('founder.jpg')">
-                    <img src="founder.jpg" alt="Founder" class="w-full h-full object-cover rounded-xl">
+                <div class="w-36 h-36 rounded-2xl border-2 border-accentGold bg-darkCard p-1.5 shadow-2xl relative cursor-pointer overflow-hidden group" onclick="openLightbox('founder.jpg')">
+                    <img src="founder.jpg" alt="Founder" class="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300">
                     <div class="absolute bottom-2 left-2 bg-darkBase/90 px-2 py-0.5 text-[9px] font-mono text-accentGold uppercase tracking-wider border border-darkBorder rounded-md">
                         Founder
                     </div>
                 </div>
-                <div class="w-36 h-36 rounded-2xl border-2 border-accentGold bg-darkCard p-1.5 shadow-2xl relative cursor-pointer overflow-hidden" onclick="openLightbox('partner.jpg')">
-                    <img src="partner.jpg" alt="Partner" class="w-full h-full object-cover rounded-xl">
+                <div class="w-36 h-36 rounded-2xl border-2 border-accentGold bg-darkCard p-1.5 shadow-2xl relative cursor-pointer overflow-hidden group" onclick="openLightbox('partner.jpg')">
+                    <img src="partner.jpg" alt="Partner" class="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300">
                     <div class="absolute bottom-2 left-2 bg-darkBase/90 px-2 py-0.5 text-[9px] font-mono text-accentGold uppercase tracking-wider border border-darkBorder rounded-md">
                         Partner
                     </div>
@@ -389,47 +392,52 @@
         </div>
     </section>
 
-    <!-- SERVICES SECTION (SWIPING BLIND) -->
+    <!-- SERVICES SECTION -->
     <section id="services" class="blind-section flex flex-col items-center justify-center py-20 px-6 border-t border-darkBorder bg-darkBase">
-        <div class="max-w-5xl w-full space-y-12">
+        <div class="max-w-5xl w-full space-y-12 reveal-element">
             <div class="text-center md:text-left">
                 <span class="text-xs uppercase tracking-[0.25em] text-accentGold font-mono block">Specialties & Support</span>
                 <h2 class="text-3xl md:text-5xl font-hand font-bold text-creamText">Our Mobile Outreach & Programs</h2>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <!-- Specialties List -->
-                <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
                         <h3 class="font-hand font-bold text-xl text-accentGold">Detox & Recovery Referrals</h3>
                         <p class="text-[11px] text-mutedText leading-relaxed">Guiding and connecting relatives to treatment and detox pathways.</p>
                     </div>
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
                         <h3 class="font-hand font-bold text-xl text-accentGold">Overdose Aftercare</h3>
                         <p class="text-[11px] text-mutedText leading-relaxed">Dedicated peer support team following critical overdose incidents.</p>
                     </div>
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
                         <h3 class="font-hand font-bold text-xl text-accentGold">Mobile Outreach Services</h3>
                         <p class="text-[11px] text-mutedText leading-relaxed">Boots-on-the-ground support traveling directly across Victoria.</p>
                     </div>
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
                         <h3 class="font-hand font-bold text-xl text-accentGold">Indigenous Harm Reduction</h3>
                         <p class="text-[11px] text-mutedText leading-relaxed">Culturally safe, peer-led care grounded in traditional values.</p>
                     </div>
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
                         <h3 class="font-hand font-bold text-xl text-accentGold">Wound Care & HIV Support</h3>
                         <p class="text-[11px] text-mutedText leading-relaxed">Essential health support, testing, and direct medical care access.</p>
                     </div>
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg">
+                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
                         <h3 class="font-hand font-bold text-xl text-accentGold">Relocation Outreach</h3>
                         <p class="text-[11px] text-mutedText leading-relaxed">Assistance with housing transitions and community navigation.</p>
                     </div>
                 </div>
 
-                <!-- Clean Vertical Flyer Asset (Clickable to Lightbox) -->
-                <div class="flex justify-center">
-                    <div class="w-48 sm:w-56 flyer-item rounded-2xl border-2 border-darkBorder hover:border-accentGold transition-colors shadow-2xl bg-darkCard overflow-hidden" onclick="openLightbox('ad.jpg')">
-                        <img src="ad.jpg" alt="Community Flyer" loading="lazy" class="rounded-xl w-full h-full object-cover">
+                <!-- Clean Vertical Relocation Poster Framing -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="poster-card w-full max-w-sm p-3 bg-darkCard border border-darkBorder rounded-2xl shadow-2xl" onclick="openLightbox('ad.jpg')">
+                        <div class="relative w-full overflow-hidden rounded-xl bg-darkBase">
+                            <img src="ad.jpg" alt="Relocation Program Flyer" loading="lazy" class="w-full h-auto max-h-[520px] object-contain mx-auto">
+                        </div>
+                        <div class="mt-3 text-center">
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-accentGold font-bold">Click to Expand Poster ↗</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -437,9 +445,9 @@
         </div>
     </section>
 
-    <!-- INFOGRAPHIC POSTERS SECTION (SWIPING BLIND) -->
+    <!-- INFOGRAPHIC POSTERS SECTION -->
     <section id="infographics" class="blind-section flex flex-col items-center justify-center py-20 px-6 border-t border-darkBorder bg-darkCard">
-        <div class="max-w-5xl w-full space-y-10">
+        <div class="max-w-5xl w-full space-y-10 reveal-element">
             <div class="text-center">
                 <span class="text-xs uppercase tracking-[0.25em] text-accentGold font-mono block">Educational Resources</span>
                 <h2 class="text-3xl md:text-5xl font-hand font-bold text-creamText mt-2">Community Infographic Posters</h2>
@@ -447,24 +455,30 @@
             
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <!-- Poster 1 -->
-                <div class="flyer-item rounded-2xl border-2 border-darkBorder hover:border-accentGold transition-colors shadow-2xl bg-darkBase mx-auto w-full max-w-xs overflow-hidden" onclick="openLightbox('g1.jpg')">
-                    <img src="g1.jpg" alt="Infographic Poster 1" loading="lazy" class="rounded-xl w-full h-full object-cover">
+                <div class="poster-card p-3 bg-darkBase border border-darkBorder rounded-2xl shadow-2xl" onclick="openLightbox('g1.jpg')">
+                    <div class="w-full overflow-hidden rounded-xl">
+                        <img src="g1.jpg" alt="Infographic Poster 1" loading="lazy" class="w-full h-auto max-h-[460px] object-contain mx-auto">
+                    </div>
                 </div>
                 <!-- Poster 2 -->
-                <div class="flyer-item rounded-2xl border-2 border-darkBorder hover:border-accentGold transition-colors shadow-2xl bg-darkBase mx-auto w-full max-w-xs overflow-hidden" onclick="openLightbox('g2.jpg')">
-                    <img src="g2.jpg" alt="Infographic Poster 2" loading="lazy" class="rounded-xl w-full h-full object-cover">
+                <div class="poster-card p-3 bg-darkBase border border-darkBorder rounded-2xl shadow-2xl" onclick="openLightbox('g2.jpg')">
+                    <div class="w-full overflow-hidden rounded-xl">
+                        <img src="g2.jpg" alt="Infographic Poster 2" loading="lazy" class="w-full h-auto max-h-[460px] object-contain mx-auto">
+                    </div>
                 </div>
                 <!-- Poster 3 -->
-                <div class="flyer-item rounded-2xl border-2 border-darkBorder hover:border-accentGold transition-colors shadow-2xl bg-darkBase mx-auto w-full max-w-xs overflow-hidden" onclick="openLightbox('g3.jpg')">
-                    <img src="g3.jpg" alt="Infographic Poster 3" loading="lazy" class="rounded-xl w-full h-full object-cover">
+                <div class="poster-card p-3 bg-darkBase border border-darkBorder rounded-2xl shadow-2xl" onclick="openLightbox('g3.jpg')">
+                    <div class="w-full overflow-hidden rounded-xl">
+                        <img src="g3.jpg" alt="Infographic Poster 3" loading="lazy" class="w-full h-auto max-h-[460px] object-contain mx-auto">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- GALLERY SECTION (SWIPING BLIND) -->
+    <!-- GALLERY SECTION -->
     <section id="gallery" class="blind-section flex flex-col items-center justify-center py-20 px-6 border-t border-darkBorder bg-darkBase">
-        <div class="max-w-5xl w-full space-y-10">
+        <div class="max-w-5xl w-full space-y-10 reveal-element">
             <div class="text-center">
                 <span class="text-xs uppercase tracking-[0.25em] text-accentGold font-mono block">Community Moments</span>
                 <h2 class="text-3xl md:text-5xl font-hand font-bold text-creamText mt-2">In the Field</h2>
@@ -502,28 +516,28 @@
         </div>
     </section>
 
-    <!-- CONTACT & FOOTER SECTION (SWIPING BLIND) -->
+    <!-- CONTACT & FOOTER SECTION -->
     <section id="contact" class="blind-section flex flex-col justify-between py-20 px-6 border-t border-darkBorder bg-darkCard">
-        <div class="max-w-4xl w-full mx-auto my-auto space-y-8">
+        <div class="max-w-4xl w-full mx-auto my-auto space-y-8 reveal-element">
             <div>
                 <span class="text-xs uppercase tracking-[0.25em] text-accentGold font-mono block">Get In Touch</span>
                 <h2 class="text-3xl md:text-5xl font-hand font-bold text-creamText mt-2">Connect With Our Team</h2>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-mutedText">
-                <div class="space-y-3 bg-darkBase border border-darkBorder p-6 rounded-xl shadow-lg">
+                <div class="space-y-3 bg-darkBase border border-darkBorder p-6 rounded-xl shadow-lg hover:border-accentGold/40 transition-colors">
                     <span class="text-accentGold font-hand font-bold text-xl block">Location & Mobile Unit</span>
                     <p class="text-creamText leading-relaxed">
                         932 Balmoral Rd / Mobile<br>
                         Victoria, BC, Canada, V8V 1P3
                     </p>
                 </div>
-                <div class="space-y-3 bg-darkBase border border-darkBorder p-6 rounded-xl shadow-lg">
+                <div class="space-y-3 bg-darkBase border border-darkBorder p-6 rounded-xl shadow-lg hover:border-accentGold/40 transition-colors">
                     <span class="text-accentGold font-hand font-bold text-xl block">Direct Contact</span>
                     <p class="text-creamText">Phone: <a href="tel:2506675756" class="hover:text-accentGold underline">(250) 667-5756</a></p>
-                    <p class="text-creamText">Email: <a href="mailto:peer2peerindigenouscoalition@gmail.com" class="hover:text-accentGold underline">peer2peerindigenouscoalition@gmail.com</a></p>
+                    <p class="text-creamText">Email: <a href="mailto:peer2peerindigenouscoalition@gmail.com" class="hover:text-accentGold underline break-all">peer2peerindigenouscoalition@gmail.com</a></p>
                 </div>
-                <div class="space-y-3 bg-darkBase border border-darkBorder p-6 rounded-xl shadow-lg border-accentGold/40">
+                <div class="space-y-3 bg-darkBase border border-darkBorder p-6 rounded-xl shadow-lg border-accentGold/40 hover:border-accentGold transition-colors">
                     <span class="text-accentGold font-hand font-bold text-xl block">Support & Donations</span>
                     <p class="text-creamText">E-Transfer / Donations:</p>
                     <p class="text-creamText font-mono text-[11px] break-all"><a href="mailto:peer2peerindigenouscoalition@gmail.com" class="hover:text-accentGold underline font-semibold">peer2peerindigenouscoalition@gmail.com</a></p>
@@ -537,7 +551,7 @@
         </div>
     </section>
 
-    <!-- FIXED LIGHTBOX OVERLAY -->
+    <!-- LIGHTBOX OVERLAY -->
     <div id="lightbox-overlay" class="fixed inset-0 z-[100] flex items-center justify-center p-4 rounded-none" onclick="closeLightbox()">
         <button class="absolute top-6 right-6 text-creamText hover:text-accentGold text-2xl z-[105] focus:outline-none p-2" aria-label="Close lightbox">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -577,7 +591,6 @@
                 }, 200);
             }
 
-            // Safety timeout: Never stay stuck for more than 3.5 seconds regardless of network speed
             const safetyTimer = setTimeout(dismissLoader, 3500);
 
             function updateProgress() {
@@ -595,9 +608,21 @@
             imageSources.forEach(src => {
                 const img = new Image();
                 img.onload = updateProgress;
-                img.onerror = updateProgress; // Proceed even if a specific image errors out
+                img.onerror = updateProgress;
                 img.src = src;
             });
+
+            // IntersectionObserver for Reveal Animations
+            const revealElements = document.querySelectorAll('.reveal-element');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            revealElements.forEach(el => revealObserver.observe(el));
         });
 
         function toggleMenu() {
@@ -614,7 +639,7 @@
             }
         }
 
-        // Clean anchor navigation handler preventing scroll-snap trap
+        // Anchor Navigation Handler
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const targetId = this.getAttribute('href');
