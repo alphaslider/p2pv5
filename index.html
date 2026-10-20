@@ -401,31 +401,31 @@
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <!-- Specialties List -->
-                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
-                        <h3 class="font-hand font-bold text-xl text-accentGold">Detox & Recovery Referrals</h3>
-                        <p class="text-[11px] text-mutedText leading-relaxed">Guiding and connecting relatives to treatment and detox pathways.</p>
+                <!-- Specialties List with Bumping Font Sizes -->
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="bg-darkCard border border-darkBorder p-6 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
+                        <h3 class="font-hand font-bold text-2xl md:text-3xl text-accentGold">Detox & Recovery Referrals</h3>
+                        <p class="text-xs md:text-sm text-mutedText leading-relaxed">Guiding and connecting relatives to treatment and detox pathways.</p>
                     </div>
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
-                        <h3 class="font-hand font-bold text-xl text-accentGold">Overdose Aftercare</h3>
-                        <p class="text-[11px] text-mutedText leading-relaxed">Dedicated peer support team following critical overdose incidents.</p>
+                    <div class="bg-darkCard border border-darkBorder p-6 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
+                        <h3 class="font-hand font-bold text-2xl md:text-3xl text-accentGold">Overdose Aftercare</h3>
+                        <p class="text-xs md:text-sm text-mutedText leading-relaxed">Dedicated peer support team following critical overdose incidents.</p>
                     </div>
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
-                        <h3 class="font-hand font-bold text-xl text-accentGold">Mobile Outreach Services</h3>
-                        <p class="text-[11px] text-mutedText leading-relaxed">Boots-on-the-ground support traveling directly across Victoria.</p>
+                    <div class="bg-darkCard border border-darkBorder p-6 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
+                        <h3 class="font-hand font-bold text-2xl md:text-3xl text-accentGold">Mobile Outreach Services</h3>
+                        <p class="text-xs md:text-sm text-mutedText leading-relaxed">Boots-on-the-ground support traveling directly across Victoria.</p>
                     </div>
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
-                        <h3 class="font-hand font-bold text-xl text-accentGold">Indigenous Harm Reduction</h3>
-                        <p class="text-[11px] text-mutedText leading-relaxed">Culturally safe, peer-led care grounded in traditional values.</p>
+                    <div class="bg-darkCard border border-darkBorder p-6 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
+                        <h3 class="font-hand font-bold text-2xl md:text-3xl text-accentGold">Indigenous Harm Reduction</h3>
+                        <p class="text-xs md:text-sm text-mutedText leading-relaxed">Culturally safe, peer-led care grounded in traditional values.</p>
                     </div>
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
-                        <h3 class="font-hand font-bold text-xl text-accentGold">Wound Care & HIV Support</h3>
-                        <p class="text-[11px] text-mutedText leading-relaxed">Essential health support, testing, and direct medical care access.</p>
+                    <div class="bg-darkCard border border-darkBorder p-6 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
+                        <h3 class="font-hand font-bold text-2xl md:text-3xl text-accentGold">Wound Care & HIV Support</h3>
+                        <p class="text-xs md:text-sm text-mutedText leading-relaxed">Essential health support, testing, and direct medical care access.</p>
                     </div>
-                    <div class="bg-darkCard border border-darkBorder p-5 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
-                        <h3 class="font-hand font-bold text-xl text-accentGold">Relocation Outreach</h3>
-                        <p class="text-[11px] text-mutedText leading-relaxed">Assistance with housing transitions and community navigation.</p>
+                    <div class="bg-darkCard border border-darkBorder p-6 space-y-2 rounded-xl shadow-lg hover:border-accentGold/50 transition-all hover:-translate-y-1">
+                        <h3 class="font-hand font-bold text-2xl md:text-3xl text-accentGold">Relocation Outreach</h3>
+                        <p class="text-xs md:text-sm text-mutedText leading-relaxed">Assistance with housing transitions and community navigation.</p>
                     </div>
                 </div>
 
@@ -564,7 +564,7 @@
 
     <!-- SCRIPT WIRING -->
     <script>
-        // Robust Preloader Script with Fallback Safety Net
+        // Preloader Script
         window.addEventListener('DOMContentLoaded', () => {
             const imageSources = [
                 'logo.jpg', 'hero.png', 'founder.jpg', 'partner.jpg', 'ad.jpg',
@@ -612,7 +612,7 @@
                 img.src = src;
             });
 
-            // IntersectionObserver for Reveal Animations
+            // Reveal Animation Observer
             const revealElements = document.querySelectorAll('.reveal-element');
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
